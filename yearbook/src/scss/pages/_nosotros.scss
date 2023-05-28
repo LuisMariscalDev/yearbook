@@ -1,0 +1,91 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.contenido-nosotros{
+
+    @include m.tablet{
+        @include m.grid(2, 2rem)
+    }
+}
+
+.texto-nosotros blockquote{
+    font-weight: v.$black;
+    font-style: 2.2rem;
+    margin: 3rem 0 0 0;
+    padding: 1rem 0 3rem 0;
+}
+// Variables
+
+// Estilos
+body {
+  background-color: $background-color;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: $primary-color;
+  color: #fff;
+  padding: 20px;
+}
+
+.logo {
+  width: 100px;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+.navegacion {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+form {
+  width: $form-width;
+  margin: $form-margin;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  padding: $input-padding;
+  border: $input-border;
+  border-radius: $input-border-radius;
+  margin-bottom: 10px;
+}
+
+button {
+  width: 100%;
+  padding: $button-padding;
+  background-color: $button-bg-color;
+  color: $button-color;
+  border: $button-border;
+  border-radius: $button-border-radius;
+  cursor: $button-cursor;
+}
+
+button:hover {
+  background-color: $button-hover-bg-color;
+}
+
+footer {
+  background-color: $primary-color;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}

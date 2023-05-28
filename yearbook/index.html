@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/yearbook/src/img/logo.png" type="image/x-icon">
+    <link href= '/yearbook/build/css/app.css' rel='stylesheet'>
+    <title>Huellas Digitales</title>
+</head>
+<body>
+    
+    <header class="header">
+        <div class="contenedor contenido-header">
+            <div class="barra">
+                <a href="/">
+                    <img class="logo" src="/yearbook/build/img/logo.png" alt="Logotipo de Bienes Raices">    
+                </a>
+
+                <div class="derecha">
+                    <nav class="navegacion">
+                        <a href="nosotros">Registrarse</a>
+                        <a href="/">Inicio</a>
+                        <a href="contacto">Ingresar</a>
+                    </nav>
+                </div>
+
+            </div> <!--.barra-->
+
+            <h1>Huellas Digitales <br> Scientia potentia est.</h1>
+        </div>
+    </header>
+
+    <form>
+        <input  type="text" id="buscar" placeholder="Buscar Alumno" name="buscar">
+        <button id="boton">Buscar</button>
+    </form>
+
+    <section class="seccion contenedor">
+
+        <h2>Alumnos</h2>
+
+        <div class="contenedor-anuncios" id="anuncios">
+
+        </div>
+
+    </section>
+    
+    <script src="/yearbook/src/js/index.js"></script>
+
+    <script>
+        const buscar = document.querySelector('#buscar');
+        const boton = document.querySelector('#boton');
+
+        const filtrar = ()=> {
+            console.log(buscar.value);
+
+            boton.addEventListener('click', filtrar)
+        }
+    </script>
+
+</body>
+</html>

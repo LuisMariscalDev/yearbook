@@ -1,0 +1,66 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+@include m.tablet{
+    .contenedor-anuncios{
+        @include m.grid(3, 2rem)
+    }
+}
+
+.anuncio{
+    img{
+        height: 100rem;
+        width: 100%;
+    }
+    background-color: lighten(v.$gris, 5);
+    border: 1px solid darken(v.$gris, 10);
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+
+    .contenido-anuncio{
+        padding: 2rem;
+        p{
+            justify-content: center;
+        }
+    }
+
+    h3, p{
+        margin: 0;
+    }
+}
+.precio{
+    color: v.$verde;
+    font-weight: v.$bold;
+    text-align: center;
+    font-size: 2rem;
+}
+input#search {
+    margin-top: 3rem;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  
+  input#search::placeholder {
+    color: #999;
+  }
+  
+  input#search:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+  }
+  
+.alumno-descripcion{
+    display: flex;
+    height: 50rem;
+    justify-content: center;
+}
+
+.resumen-propiedad p{
+    display: grid;
+    grid-template-columns: 2, 1fr;
+}

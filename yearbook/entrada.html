@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/yearbook/src/img/logo.png" type="image/x-icon">
+    <link href= 'yearbook/build/css/app.css' rel='stylesheet'>
+    <title>Anuario</title>
+</head>
+<body>
+    <style>
+        body {
+  background-color: #f2f2f2;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+form {
+  margin-top: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+
+</style>
+    
+    <header class="header">
+        <div class="contenedor contenido-header">
+            <div class="barra">
+                <a href="/">
+                    <img class="logo" src="/yearbook/build/img/logo.png" alt="Logotipo de Bienes Raices">    
+                </a>
+
+                <div class="mobile-menu">
+                    <img src="/yearbook/build/img/barras.svg" alt="menu burguer">
+                </div>
+
+                <div class="derecha">
+                    <nav class="navegacion">
+                        <a href="nosotros">Registrarse</a>
+                        <a href="/">Inicio</a>
+                        <a href="contacto">Ingresar</a>
+                    </nav>
+                </div>
+            </div> <!--.barra-->
+        </div>
+    </header>
+
+    <main class="contenedor seccion contenido-centrado">
+        <div class="container" id="register">
+            <h2>Registrar Proyecto</h2>
+    
+            <form action="/api/registrar-proyecto" method="post" enctype="multipart/form-data">
+                <label for="proyectos">Proyectos:</label>
+                
+                <label for="nombrepro">Nombre Del Proyecto:</label>
+                <input type="text" id="nombrepro" placeholder="Ej: Contador de clic" name="nombrepro">
+                
+                <input type="text" id="ultimosDigitos" name="ultimosDigitos" style="display: none;">
+                
+                <input type="file" id="fotopro" name="fotopro">
+                
+                <label for="proyectos">Describe tu proyecto:</label>
+                <textarea id="proyectos" placeholder="Este programa cuenta los clic que des" name="proyectos"></textarea>
+                
+                <button type="submit">Registrar Proyecto</button>
+              </form>
+        </div>
+    </main>
+    <script>
+        // Obtener los dos últimos dígitos de la URL
+        const url = window.location.href;
+        const ultimosDigitos = url.substr(-2);
+      
+        // Asignar los dos últimos dígitos al campo oculto "ultimosDigitos"
+        const campoUltimosDigitos = document.getElementById('ultimosDigitos');
+        campoUltimosDigitos.value = ultimosDigitos;
+
+        const example = document.getElementById("ultimosDigitos")
+      </script>
+      <script src="/Server.js"></script>
+    <script src="build/js/bundle.min.js"></script>
+</body>
+</html>
