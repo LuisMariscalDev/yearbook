@@ -33,7 +33,6 @@
 
     <form>
         <input  type="text" id="buscar" placeholder="Buscar Alumno" name="buscar">
-        <button id="boton">Buscar</button>
     </form>
 
     <section class="seccion contenedor">
@@ -47,17 +46,6 @@
     </section>
     
     <script src="/yearbook/src/js/index.js"></script>
-
-    <script>
-        const buscar = document.querySelector('#buscar');
-        const boton = document.querySelector('#boton');
-
-        const filtrar = ()=> {
-            console.log(buscar.value);
-
-            boton.addEventListener('click', filtrar)
-        }
-    </script>
 
 </body>
 </html>

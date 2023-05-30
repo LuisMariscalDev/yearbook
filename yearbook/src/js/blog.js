@@ -105,3 +105,14 @@ function actualizaInfo(){
     document.getElementById("btn-reg").style.display = "block";
     document.getElementById("btn-up").style.display = "none";
 }
+function cerrarSesion() {
+    fetch('/cerrarsesion')
+        .then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}

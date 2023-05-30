@@ -114,5 +114,11 @@ table {
     </div>
 
     <script src="/yearbook/src/js/blog.js"></script>
+    <script>
+      const cerrarSesionButton = document.createElement('button');
+cerrarSesionButton.textContent = 'Cerrar Sesión';
+cerrarSesionButton.addEventListener('click', cerrarSesion);
+document.body.appendChild(cerrarSesionButton);
+    </script>
 </body>
 </html>

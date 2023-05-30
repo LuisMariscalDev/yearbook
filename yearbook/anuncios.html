@@ -70,15 +70,6 @@ table {
     
     <header class="header">
         <div class="contenedor contenido-header">
-            <div class="barra">
-                <a href="/">
-                    <img class="logo" src="/yearbook//yearbook/build/img/logo.png" alt="Logotipo de Bienes Raices">    
-                </a>
-
-                <div class="mobile-menu">
-                    <img src="/yearbook//yearbook/build/img/barras.svg" alt="menu burguer">
-                </div>
-
                 <div class="derecha">
                     <nav class="navegacion">
                         <a href="nosotros">Registrarse</a>
@@ -94,14 +85,16 @@ table {
         <h2>Editar Proyecto</h2>
         
         <label for="proyectos">Proyectos:</label>
-                
-        <label for="nombrepro">Nombre Del Proyecto:</label>
-        <input type="text" id="nombrepro" placeholder="Ej: Contador de clic" name="nombrepro">
-        <input type="text" id="ultimosDigitos" name="ultimosDigitos" style="display: none;">
         
-        <label for="proyectos">Describe tu proyecto:</label>
-        <textarea id="proyectos" placeholder="Este programa cuenta los clic que des" name="proyectos"></textarea>
-        <button type="submit" onclick="modificarProyecto()" id="btn-reg">Modificar</button>
+        <form action="/api/actualizarproyecto" method="post">
+          <label for="nombrepro">Nombre Del Proyecto:</label>
+          <input type="text" id="nombrepro" placeholder="Ej: Contador de clic" name="nombrepro">
+          <input type="text" id="ultimosDigitos" name="ultimosDigitos" style="display: none;">
+          
+          <label for="proyectos">Describe tu proyecto:</label>
+          <textarea id="proyectos" placeholder="Este programa cuenta los clic que des" name="proyectos"></textarea>
+          <button type="submit"  id="btn-reg">Modificar</button>
+        </form>
 
     </main>
 
@@ -117,5 +110,7 @@ table {
 
       const example = document.getElementById("ultimosDigitos")
     </script>
+    <script src="/Server.js"></script>
+    <script src="/yearbook/src/js/anuncios.js"></script>
 </body>
 </html>

@@ -1,7 +1,28 @@
 const anuncios = document.getElementById("anuncios");
+const inputBuscar = document.getElementById('buscar');
 
+inputBuscar.addEventListener('keyup', e => {  
+    const busqueda = e.target.value.toLowerCase();
+    const anuncios = document.querySelectorAll('.anuncio');
+    let encontrado = false;
+
+    anuncios.forEach(anuncio => {  
+        // Asume que el título del anuncio es lo que quieres comparar con la búsqueda
+        const titulo = anuncio.querySelector('h3').textContent.toLowerCase();
+
+        if (titulo.includes(busqueda)) {
+            encontrado = true;
+            anuncio.style.display = 'block';
+        } else {
+            anuncio.style.display = 'none';
+        }
+    });
+
+    if (!encontrado) {
+        console.error("No se encontraron anuncios que coincidan con la búsqueda.");
+    }
+});
 function showData (data) {
-
 
     data.map((item) => {   
 

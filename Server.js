@@ -5,6 +5,8 @@ const multer = require('multer');
 const mysql = require('mysql2/promise');
 const path = require('path');
 const app = express();
+const morgan = require('morgan');
+app.use(morgan('combined'));
 
 /**
  * Set the storage type for files using multer.diskStorage.
@@ -86,21 +88,109 @@ servePage('/nosotros', 'nosotros');
 servePage('/modificar', 'modificar');
 
 
-
-
-app.get('/api/courses', async (req, res, next) => {
-
-    const data = await mysqlAction('SELECT * FROM courses', []);
-
-    if (data === null){
-        return res.status(500).json({
-            message: 'Ha ocurrido al obtener los datos'
-        });
+    //Validacion de usuario. 
+    // app.post('/api/validar', async (req, res) => {
+    //     const user = req.body.user;
+    //     const password = req.body.password;
+      
+    //     try {
+    //       const payload = [user, password];
+    //       const resultsAlumnos = await mysqlAction('SELECT * FROM estudiantes WHERE Nombre = ? AND Correo = ?', payload);
+      
+    //       if (resultsAlumnos.length > 0) {
+    //         res.redirect('/');
+    //       } else {
+    //         const resultsProfesores = await mysqlAction('SELECT * FROM profesores WHERE Correo = ? AND Contrasena = ?', payload);
+      
+    //         if (resultsProfesores !== null && resultsProfesores.length > 0) {
+    //           res.redirect('/blog');
+    //         } else {
+    //           var nohayuser = "El usuario o contraseña son incorrectos.";
+    //           res.send('<script>alert("' + nohayuser + '"); window.location.href="/";</script>');
+    //         }
+    //       }
+    //     } catch (error) {
+    //       console.error(error);
+    //       res.status(500).json({
+    //         message: 'Ha ocurrido un error al obtener los datos de los estudiantes.'
+    //       });
+    //     }
+    //   });      
+        
+    const session = require('express-session');
+    
+    app.use(express.json());
+    app.use(express.urlencoded({extended: true}));
+    
+// Middleware de autenticación
+function requireLogin(req, res, next) {
+    if (!req.session.user) {
+        res.redirect('/');
+    } else {
+        next();
     }
+}
 
-    res.status(200).json(data);
+// Configuración de las sesiones
+app.use(session({
+    secret: 'tu secreto aquí',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
+
+// Rutas protegidas
+app.get('/', requireLogin, (req, res) => {
+    res.send('Bienvenido a la página de inicio de los alumnos.');
 });
 
+app.get('/blog', requireLogin, (req, res) => {
+    res.send('Bienvenido a la página de inicio de los profesores.');
+});
+
+    // Ruta de inicio de sesión
+    app.post('/api/validar', async (req, res) => {
+        const user = req.body.user;
+        const password = req.body.password;
+    
+        // Código de validación aquí...
+        try { 
+            const payload = [user, password]; 
+            const resultsAlumnos = await mysqlAction('SELECT * FROM estudiantes WHERE Nombre = ? AND Correo = ?', payload); 
+    
+            if (resultsAlumnos.length > 0) { 
+                req.session.user = resultsAlumnos[0]; 
+                return res.redirect('/'); 
+            } 
+    
+            const resultsProfesores = await mysqlAction('SELECT * FROM profesores WHERE Correo = ? AND Contrasena = ?', payload); 
+    
+            if (resultsProfesores !== null && resultsProfesores.length > 0) { 
+                req.session.user = resultsProfesores[0]; 
+                return res.redirect('/blog'); 
+            }
+    
+            var nohayuser = "El usuario o contraseña son incorrectos."; 
+            return res.send('<script>alert("' + nohayuser + '"); window.location.href="/";</script>'); 
+        } catch (error) { 
+            console.error(error); 
+            return res.status(500).json({ 
+                message: 'Ha ocurrido un error al obtener los datos de los estudiantes.' 
+            }); 
+        }
+    });
+    
+    // Ruta de cierre de sesión
+// Ruta de cierre de sesión
+    app.get('/cerrarsesion', (req, res) => {
+        req.session.destroy(err => {
+            if(err) {
+                return res.redirect('/');
+            }
+            res.clearCookie('sid');
+            return res.redirect('/');
+        });
+    })
 
 app.post('/api/student', uploadIMGProfile.single('photo'), async (req, res, next) => {
     const name = req.body.name;
@@ -251,23 +341,6 @@ console.log(data)
     res.redirect('/')
 });
 
-// app.get('/api/buscar-alumnos', async (req, res, next) => {
-//   const buscar = req.query.buscar;
-//   const payload = [buscar];
-
-//   try {
-//     const data = await mysqlAction(`SELECT * FROM estudiantes WHERE Nombre LIKE ?`, [`%${buscar}%`]);
-
-//     res.status(200).json(data);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({
-//       message: 'Ha ocurrido un error al obtener los datos de los estudiantes.'
-//     });
-//   }
-// });
-
-
 // Definir una ruta que incluya parámetros en la URL
 app.get('/usuarios/:id', (req, res) => {
     // Leer el parámetro de la ruta
@@ -304,8 +377,6 @@ app.post('/api/actualizarEstudiante', async (req, res) => {
     const habilidades = req.body.habilidades;
     const objetivos = req.body.objetivos;
 
-    console.log(req.body);
-
     const query = `
     UPDATE estudiantes
     SET 
@@ -332,17 +403,23 @@ app.post('/api/actualizarEstudiante', async (req, res) => {
 
 
 
-app.post('/api/update-project', async (req, res) => {
+app.post('/api/actualizarproyecto', async (req, res) => {
     const id = req.query.id;
     
     const nombrepro = req.body.nombrepro;
     const proyectos = req.body.proyectos;
 
-    const query = `UPDATE proyectos
+    console.log(req.body);
+
+    const query = `
+    UPDATE proyectos
     SET 
-    NombreProyecto = IF(? IS NOT NULL AND ? != '', ?, NombreProyecto),
-    Descripcion = IF(? IS NOT NULL AND ? != '', ?, Descripcion)`;
-    const result = await mysqlAction(query, [nombre, correo, id]);
+    NombreProyecto = ?,
+    Descripcion = ?
+    WHERE EstudianteID = ?;
+    `;
+
+    const result = await mysqlAction(query, [nombrepro, proyectos, id]);
     
     if (result === null) {
         return res.status(500).json({
@@ -353,19 +430,6 @@ app.post('/api/update-project', async (req, res) => {
     res.redirect(`/`)
 });
 
-app.post('/buscaralumnos', function(req, res, next) {
-    const nombre = req.body.nombre;
-  
-    const query = `SELECT * FROM estudiantes WHERE Nombre LIKE '%${nombre}%'`;
-    conexion.query(query, function(error, rows, fields) {
-      if (error) {
-        console.log(error);
-        res.render('error', { message: 'Error al buscar alumnos', error: error });
-      } else {
-        res.render('resultados', { rows: rows });
-      }
-    });
-  })
 
 // ======== NO TOUCH ===========================================
 app.listen(process.env.SERVER_PORT || 3000,() => {

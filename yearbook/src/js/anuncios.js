@@ -15,7 +15,19 @@ fetch(`/api/student?id=${id}`)
 
 function modificarProyecto(){
     const formDataProyecto = new FormData();
-    formDataEstudiante.append("id", id);
-    formDataEstudiante.append("nombrepro", document.getElementById("nombre").value || "");
-    formDataEstudiante.append("proyectos", document.getElementById("proyectos").value || "");
+    formDataProyecto.append("id", id);
+    formDataProyecto.append("nombrepro", document.getElementById("nombre").value || "");
+    formDataProyecto.append("proyectos", document.getElementById("proyectos").value || "");
+
+    fetch(`/api/actualizarproyecto`, {
+        method: 'POST',
+        body: formDataProyecto,
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
 }
