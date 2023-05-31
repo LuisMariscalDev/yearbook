@@ -27,7 +27,7 @@ function showData (data) {
     data.map((item) => {   
 
         anuncios.innerHTML += `
-                 <div class="anuncio">
+        <div class="anuncio">
             <picture>
                 <img loading="lazy" src=" ${item.Foto}" alt="anuncio de casa">
             </picture>
